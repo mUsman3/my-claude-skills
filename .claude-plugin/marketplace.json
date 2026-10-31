@@ -1,0 +1,12 @@
+{
+  "name": "my-claude-skills",
+  "owner": { "name": "Your Name" },
+  "plugins": [
+    {
+      "name": "my-skills",
+      "source": "./plugins/my-skills",
+      "description": "My shared skills",
+      "version": "1.0.0"
+    }
+  ]
+}
