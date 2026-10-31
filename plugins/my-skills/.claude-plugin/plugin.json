@@ -1,1 +1,5 @@
-
+{
+  "name": "my-skills",
+  "description": "My shared skills",
+  "version": "1.0.0"
+}
