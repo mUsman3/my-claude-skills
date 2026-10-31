@@ -1,53 +1,45 @@
 # my-claude-skills
 
-GitHub-hosted Claude plugin marketplace. Add this repo once in each Claude account; skill updates ship when you bump the version and push.
+One GitHub repo is the shared copy of your skills. Every Claude account installs it and downloads updates from here. Accounts do not copy skills to each other.
 
-## Add this marketplace in Claude
+Repo: https://github.com/mUsman3/my-claude-skills
 
-1. Open **Customize → Plugins → + → Add marketplace → Add from a repository**
-2. Paste: `https://github.com/mUsman3/my-claude-skills`
-3. Install the **my-skills** plugin
-4. Start a new chat
+## Once per Claude account
+
+1. Customize → Plugins → + → Add marketplace → Add from a repository
+2. Paste `https://github.com/mUsman3/my-claude-skills`
+3. Click **Add** on **My skills**
+4. New chat, type `sync check`. Expect `SYNC TEST — version 1`
+
+## Every time you change a skill
+
+Edit only in this folder: `plugins/my-skills/skills/<skill-name>/SKILL.md`
+
+Then publish:
+
+```bash
+./scripts/publish.sh "what changed"
+```
+
+That bumps the version in both JSON files, commits, and pushes. Claude ignores a skill edit until the version changes.
+
+On each Claude account: marketplace **···** → **Check for updates**, then start a **new chat**.
+
+If an update stays on the old text, remove the marketplace and add it again.
 
 ## Add a skill
 
-1. Create a folder under `plugins/my-skills/skills/<skill-name>/` (lowercase, hyphen-separated, max 64 chars)
-2. Add `SKILL.md` with YAML frontmatter:
+Create `plugins/my-skills/skills/<skill-name>/SKILL.md`. The folder name is lowercase and hyphen-separated, at most 64 characters. `name` in the frontmatter must match the folder.
 
 ```markdown
 ---
 name: skill-name
-description: Use when … (one sentence — this drives when Claude triggers the skill)
+description: Use when … (one sentence — this is when Claude should use the skill)
 ---
 
-Skill instructions go here.
+Instructions.
 ```
 
-3. Optional supporting dirs: `scripts/`, `references/`, `assets/`
-4. Bump the version, commit, and push (below)
+Optional folders next to `SKILL.md`: `scripts/`, `references/`, `assets/`.
 
-## Bump version after any skill change
-
-Claude only picks up marketplace updates when the plugin version changes. Keep `marketplace.json` and `plugin.json` in sync:
-
-```bash
-./scripts/bump-version.sh        # patch (default)
-./scripts/bump-version.sh minor
-./scripts/bump-version.sh major
-```
-
-Then:
-
-```bash
-git add -A
-git commit -m "Describe the skill change"
-git push
-```
-
-In **each** Claude account: open the marketplace’s **···** menu → **Check for updates**, then start a **new chat**.
-
-If an update seems stuck, remove the marketplace and re-add it (known desktop sync bug).
-
-## Verify sync
-
-Say `sync check` — you should get `SYNC TEST — version N` matching the current `sync-test` skill body.
+Then run `./scripts/publish.sh "Add skill-name"`.
